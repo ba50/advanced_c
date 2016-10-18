@@ -4,19 +4,36 @@
 
 unsigned int Polaczenie::counter = 0;
 
+void operator>> (std::istream &is, Polaczenie &p){
+	p.nr="1";	
+}
+
 Billing::Billing(std::istream &is){
 	blng_vector_.reserve(4000);
 
-	std::string temp;
+	std::string line;
+	std::string cell;
+	std::vector<std::string> cell_vector;
+	cell_vector.reserve(3);
 
-	for(int i=0;i<3;i++){
-		std::getline(is,temp);
-		blng_vector_.push_back({temp});
+
+	for(int i=0;i<7;i++){
+		std::getline(is,line);
+		std::stringstream line_stream(line);
+
+		while(std::getline(line_stream, cell, '\t')){
+			cell_vector.push_back(cell);
+		}
+
+		blng_vector_.push_back({cell_vector});
+		cell_vector.clear();
+
 	}
 
-	for(auto& blng_ : blng_vector_){
+/*	for(auto& blng_ : blng_vector_){
 		blng_.Print();
 	}
+*/
 }
 
 void Billing::statystykaDzienna (std::ostream &os) const

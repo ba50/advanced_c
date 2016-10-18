@@ -9,22 +9,13 @@
 
 struct Polaczenie
 {
-	Polaczenie(std::string line_in){
-		counter++;
+	Polaczenie(std::vector<std::string> cell_vector){
 
-		std::stringstream line_stream(line_in);
-		std::string cell;
-		std::vector<std::string> cell_vector;
-		//cell_vector.reserve(6);
+		std::string::size_type sz;
 
-		while(std::getline(line_stream, cell, '\t')){
-			cell_vector.push_back(cell);
-		}
-
-		//std::string::size_type sz;
-		dzien = std::stoi(cell_vector[3],nullptr, 0);
-		nr = cell_vector[4];	
-		//czas = std::stof(cell_vector[5], &sz);
+		dzien = std::stoi(cell_vector[0],nullptr, 0);
+		nr = cell_vector[1];	
+		czas = std::stof(cell_vector[2], &sz);
 	};
 
 	void Print(){
@@ -38,7 +29,7 @@ struct Polaczenie
 	std::string kod () const; // zwraca dwucyfrowy kod mi#dzynarodowy
 };
 
-std::istream &operator>> (std::istream &is, Polaczenie &p);
+void operator>> (std::istream &is, Polaczenie &p);
 
 class Billing
 {
