@@ -9,7 +9,13 @@
 
 struct Polaczenie
 {
-	Polaczenie(std::vector<std::string> cell_vector){
+	Polaczenie(const std::vector<std::string> cell_vector){
+
+		if(cell_vector.size()<3){
+			printf("Rozmiar cell_vector: %zu < 3 :( \n",
+				       	cell_vector.size());
+			throw(0);
+		}
 
 		std::string::size_type sz;
 
@@ -25,11 +31,14 @@ struct Polaczenie
 	unsigned dzien;
 	std::string nr;
 	float czas; // czas po##czenia
-	static unsigned int counter;
-	std::string kod () const; // zwraca dwucyfrowy kod mi#dzynarodowy
+	std::string kod () const{ // zwraca dwucyfrowy kod mi#dzynarodowy
+		return std::string(nr.begin(),nr.begin()+2);
+	}
+
 };
 
-void operator>> (std::istream &is, Polaczenie &p);
+void operator>> (std::istream &is,
+	       	std::vector<Polaczenie> &cell_vector);
 
 class Billing
 {
