@@ -3,34 +3,34 @@
 #include <map>
 
 
-void operator>>	(std::istream &is,
-	       	std::vector<Polaczenie> &blng_vector_){
-
+std::istream &operator>> (std::istream &is, Polaczenie &p){
 	std::string line;
 	std::string cell;
 	std::vector<std::string> cell_vector;
 	cell_vector.reserve(3);
 
-	for(int i =0; i < 3902; i++){
+	std::getline(is,line);
+	std::stringstream line_stream(line);
 
-		std::getline(is,line);
-		std::stringstream line_stream(line);
-
-		while(std::getline(line_stream, cell, '\t')){
-			cell_vector.push_back(cell);
-		}
-
-		blng_vector_.push_back(cell_vector);
-		cell_vector.clear();
-
+	while(std::getline(line_stream, cell, '\t')){
+		cell_vector.push_back(cell);
 	}
 
+	if(cell_vector.size()  == 3)
+		p = Polaczenie(cell_vector);
+
+	return is;
 }
 
 
 Billing::Billing(std::istream &is){
-	blng_vector_.reserve(3902);
-	is>>blng_vector_;
+	blng_vector_.reserve(4000);
+	Polaczenie temp;
+	//while ostatecznie
+	//for(int i=0;i<6;i++){
+	while(	is>>temp){
+		blng_vector_.push_back(temp);
+	}
 }
 
 

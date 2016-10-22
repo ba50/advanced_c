@@ -9,11 +9,16 @@
 
 struct Polaczenie
 {
+	Polaczenie(){
+		dzien = 0;
+		nr = "";
+		czas = 0;
+	}
+
 	Polaczenie(const std::vector<std::string> cell_vector){
 
 		if(cell_vector.size()<3){
-			printf("Rozmiar cell_vector: %zu < 3 :( \n",
-				       	cell_vector.size());
+			printf("Rozmiar cell_vector: %zu < 3 :( \n", cell_vector.size());
 			throw(0);
 		}
 
@@ -37,8 +42,7 @@ struct Polaczenie
 
 };
 
-void operator>> (std::istream &is,
-	       	std::vector<Polaczenie> &cell_vector);
+std::istream &operator>> (std::istream &is, Polaczenie &p);
 
 class Billing
 {
