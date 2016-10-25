@@ -9,18 +9,10 @@
 
 struct Polaczenie
 {
-	Polaczenie(){
-		dzien = 0;
-		nr = "";
-		czas = 0;
-	}
-
+	Polaczenie(){};
 	Polaczenie(const std::vector<std::string> cell_vector){
-
-		if(cell_vector.size()<3){
-			printf("Rozmiar cell_vector: %zu < 3 :( \n", cell_vector.size());
-			throw(0);
-		}
+		if(cell_vector.size()<3)
+			throw(std::string("Za mala liczba kolumn w linii\n"));
 
 		std::string::size_type sz;
 
