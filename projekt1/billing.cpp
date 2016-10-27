@@ -1,24 +1,15 @@
 #include "billing.hpp"
 #include "histogram.hpp"
 #include <map>
+#include <algorithm>
 
 
 std::istream &operator>> (std::istream &is, Polaczenie &p){
-	std::string line;
-	std::string cell;
-	std::vector<std::string> cell_vector;
-	cell_vector.reserve(3);
 
-	std::getline(is,line);
-	std::stringstream line_stream(line);
-
-	while(std::getline(line_stream, cell, '\t')){
-		cell_vector.push_back(cell);
-	}
-
-//	if(cell_vector.size()  == 3)
-		p = Polaczenie(cell_vector);
-
+	is>>p.dzien;
+	is>>p.nr;
+	is>>p.czas;
+		
 	return is;
 }
 
@@ -38,16 +29,20 @@ void Billing::statystykaDzienna (std::ostream &os) const
 	for(auto& blng_ : blng_vector_){
 		stat_vector[blng_.dzien-1]++;
 	}
-
+	unsigned min_ = *min_element(stat_vector.begin(), stat_vector.end());
+	int i =1;
 	for(auto& stat : stat_vector){
-		printf("%d\t", stat);	
+		printf("%d:\t%d\t", i, stat);	
 		printf("(%f%%):\t", (static_cast<float>(stat)*100.f)/
 			static_cast<float>(blng_vector_.size()));
-		for(; stat != 0 ; stat--){
+		for(stat-=(min_-1) ; stat != 0 ; stat--){
 			printf("*");	
 		}
 		printf("\n");
+		i++;
 	}	
+
+	printf("\nWYKONANYCH POLACZEN: %zu\n", blng_vector_.size());
 }
 
 
@@ -61,8 +56,11 @@ void Billing::statystykaKrajowa (std::ostream &os) const
 		stat[blan_.kod()].dodaj(blan_.czas);
 	}	
 
+	printf("Kraj\tN\t\tSred.\t\tOdch.\t\tMin\t\tMax\n");
+
 	for(auto& s : stat){
-		std::cout<<s.first<<std::endl;	
+		printf("%s:\t%zu\t%f\t%f\t%f\t%f\n", 
+		s.first.c_str(), s.second.rozmiar(), s.second.srednia(), s.second.odchylenie(), s.second.min(), s.second.max());
 	}
 
 }

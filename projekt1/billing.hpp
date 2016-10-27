@@ -9,18 +9,6 @@
 
 struct Polaczenie
 {
-	Polaczenie(){};
-	Polaczenie(const std::vector<std::string> cell_vector){
-		if(cell_vector.size()<3)
-			throw(std::string("Za mala liczba kolumn w linii\n"));
-
-		std::string::size_type sz;
-
-		dzien = std::stoi(cell_vector[0],nullptr, 0);
-		nr = cell_vector[1];	
-		czas = std::stof(cell_vector[2], &sz);
-	};
-
 	void Print(){
 		printf("%d, %s, %f\n", dzien, nr.c_str(), czas);
 	};
